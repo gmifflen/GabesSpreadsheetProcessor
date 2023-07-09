@@ -14,7 +14,10 @@ This application provides a simple graphical user interface for editing spreadsh
 
 3. Click the "Process Files" button. The application will read each file, remove the specified columns, and write the cleaned data to a new file with "_cleaned" appended to the original filename.
 
-##TODO
+## TODO
 - Add support for more file types
 - Allow the user to specify different columns to remove for each file
 - Improve the GUI layout and design
+
+
+The icon was made by OkapiIsTired from https://www.favicon.cc/
