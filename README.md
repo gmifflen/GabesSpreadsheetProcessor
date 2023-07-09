@@ -2,7 +2,7 @@ Sure, here's a simple README.md for your application:
 
 ---
 
-# Gabe's XLSX Processor
+# Gabe's Spreadsheet Processor
 
 This application provides a simple graphical user interface for editing spreadsheet files. It allows you to remove specific columns from one or multiple files at once.
 
@@ -22,12 +22,12 @@ Video guide(click image below):
 " target="_blank"><img src="http://img.youtube.com/vi/qC1W0BDccj4/0.jpg" width="240" height="180" border="10" /></a>
 
 ## TODO
-- Add support for more file types
-- Allow the user to specify different columns to remove for each file
-- Improve the GUI layout and design
-- Squash bugs
-  - Invalid Column Name
-  - Invalid File Type
+- [x] Add support for more file types
+- [ ] Allow the user to specify different columns to remove for each file
+- [ ] Improve the GUI layout and design
+- [ ] Squash bugs
+  - [x] Invalid Column Name
+  - [x] Invalid File Type
 
 
 The desktop icon was made by OkapiIsTired from https://www.favicon.cc/
