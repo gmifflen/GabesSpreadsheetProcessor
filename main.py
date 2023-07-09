@@ -1,4 +1,5 @@
 import pandas as pd
+from pandas.errors import EmptyDataError
 import tkinter as tk
 from tkinter import filedialog
 from tkinter import messagebox
@@ -81,10 +82,23 @@ class Application(tk.Frame):
 
         # Iterate over the selected files
         for filename in self.filenames:
-            # Load the data from Excel file
-            data = pd.read_excel(filename)
+            try:
+                # Try to read the Excel file
+                data = pd.read_excel(filename)
+            except (FileNotFoundError, pd.errors.EmptyDataError) as e:
+                # If the file couldn't be read, show an error message and end the function
+                messagebox.showerror("Error", f"Failed to read file {filename}. Make sure it's a valid Excel file.")
+                return
+
+            # Check if any of the columns specified to remove are not in the dataframe
+            missing_cols = [col for col in columns_to_remove if col not in data.columns]
+            # If there are any such columns, show an error message and end the function
+            if missing_cols:
+                messagebox.showerror("Error", f"The column(s) {', '.join(missing_cols)} do not exist in file {filename}")
+                return
+
             # Remove the specified columns
-            data = data.drop(columns=columns_to_remove, errors='ignore')
+            data = data.drop(columns=columns_to_remove)
 
             # Save the data to a new file with "_cleaned" appended to the original filename
             base_filename, ext = os.path.splitext(filename)
