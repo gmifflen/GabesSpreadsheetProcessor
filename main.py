@@ -12,7 +12,7 @@ class Application(tk.Frame):
     def __init__(self, master=None):
         super().__init__(master)
 
-        # Variable to hold selected files names
+        # holds selected files names
         self.filenames = None
 
         # UI element
@@ -31,7 +31,7 @@ class Application(tk.Frame):
         # Should set background, but bc of how I wrote this, it's more like a border than bg; not great, but works.
         self.master.configure(bg='#d5d6db')
 
-        # Actually sets the bg
+        # Actually sets the bg, but not the border which has to be set above
         self.configure(bg='#d5d6db')
 
         # Arrange this frame widget in a grid layout with padding
