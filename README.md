@@ -17,7 +17,8 @@ This application provides a simple graphical user interface for editing spreadsh
 3. Click the "Process Files" button. The application will read each file, remove the specified columns, and write the cleaned data to a new file with "_cleaned" appended to the original filename.
 
 Video guide:
-<iframe width="560" height="315" src="https://www.youtube.com/embed/qC1W0BDccj4?controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=qC1W0BDccj4
+" target="_blank"><img src="http://img.youtube.com/vi/qC1W0BDccj4/0.jpg" width="240" height="180" border="10" /></a>
 
 ## TODO
 - Add support for more file types
