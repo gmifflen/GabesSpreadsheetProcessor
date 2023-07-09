@@ -21,8 +21,8 @@ This application provides a simple graphical user interface for editing spreadsh
 - Allow the user to specify different columns to remove for each file
 - Improve the GUI layout and design
 - Squash bugs
--   Invalid Column Name
--   Invalid File Type
+  - Invalid Column Name
+  - Invalid File Type
 
 
 The icon was made by OkapiIsTired from https://www.favicon.cc/
