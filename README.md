@@ -6,6 +6,8 @@ Sure, here's a simple README.md for your application:
 
 This application provides a simple graphical user interface for editing spreadsheet files. It allows you to remove specific columns from one or multiple files at once.
 
+![alt text](https://github.com/gmifflen/GabesSpreadsheetProcessor/blob/main/sc.png?raw=true)
+
 ## Usage
 
 1. Click the "Browse Excel Files" button to select one or multiple spreadsheet files that you want to clean. The application supports Excel (.xlsx and .xls) files.
@@ -14,7 +16,8 @@ This application provides a simple graphical user interface for editing spreadsh
 
 3. Click the "Process Files" button. The application will read each file, remove the specified columns, and write the cleaned data to a new file with "_cleaned" appended to the original filename.
 
-![alt text](https://github.com/gmifflen/GabesSpreadsheetProcessor/blob/main/sc.png?raw=true)
+Video guide:
+<iframe width="560" height="315" src="https://www.youtube.com/embed/qC1W0BDccj4?controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 ## TODO
 - Add support for more file types
