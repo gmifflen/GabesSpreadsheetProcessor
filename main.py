@@ -69,7 +69,7 @@ class Application(tk.Frame):
     # Method to load files, triggered by "Browse Excel Files" button
     def load_files(self):
         # Open a file dialog and get the selected filenames
-        self.filenames = filedialog.askopenfilenames(filetypes=(("Excel files", "*.xlsx"), ("All files", "*.*")))
+        self.filenames = filedialog.askopenfilenames(filetypes=(("Spreadsheet files", "*.xlsx *.csv *.ods"), ("All files", "*.*")))
         if self.filenames:
             # Update the filename label text with selected files
             self.filename_label['text'] = ', '.join(self.filenames)
@@ -91,11 +91,16 @@ class Application(tk.Frame):
         # Iterate over the selected files
         for filename in self.filenames:
             try:
-                # Try to read the Excel file
-                data = pd.read_excel(filename)
+                # Check if file is csv
+                if filename.endswith('.csv'):
+                    # Try to read the Excel or ODS file
+                    data = pd.read_csv(filename)
+                else:
+                    # Try to read the Excel or ODS file
+                    data = pd.read_excel(filename)
             except (FileNotFoundError, pd.errors.EmptyDataError) as e:
                 # If the file couldn't be read, show an error message and end the function
-                messagebox.showerror("Error", f"Failed to read file {filename}. Make sure it's a valid Excel file.")
+                messagebox.showerror("Error", f"Failed to read file {filename}. Make sure it's a valid spreadsheet file.")
                 return
 
             # Check if any of the columns specified to remove are not in the dataframe
@@ -111,7 +116,11 @@ class Application(tk.Frame):
             # Save the data to a new file with "_cleaned" appended to the original filename
             base_filename, ext = os.path.splitext(filename)
             output_filename = f"{base_filename}_cleaned{ext}"
-            data.to_excel(output_filename, index=False)
+
+            if filename.endswith('.csv'):
+                data.to_csv(output_filename, index=False)
+            else:
+                data.to_excel(output_filename, index=False)
 
         # Show success message when all files are processed
         messagebox.showinfo("Success", f"Files processed successfully")
