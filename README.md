@@ -25,4 +25,4 @@ This application provides a simple graphical user interface for editing spreadsh
   - Invalid File Type
 
 
-The icon was made by OkapiIsTired from https://www.favicon.cc/
+The desktop icon was made by OkapiIsTired from https://www.favicon.cc/
