@@ -31,4 +31,5 @@ Video guide(click image below):
 
 
 The desktop icon was made by OkapiIsTired from https://www.favicon.cc/
-COlor Scheme used is Tokyo Night Light from https://github.com/enkia/tokyo-night-vscode-theme
+
+Color Scheme used is Tokyo Night Light from https://github.com/enkia/tokyo-night-vscode-theme
