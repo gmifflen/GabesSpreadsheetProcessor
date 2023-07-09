@@ -6,7 +6,7 @@ from tkinter import messagebox
 import os
 
 
-# Define the main application class that inherits from tkinter's Frame class
+# main application
 class Application(tk.Frame):
     # Initialize the Application class
     def __init__(self, master=None):
@@ -26,9 +26,15 @@ class Application(tk.Frame):
         self.master = master
 
         # Set the window title
-        self.master.title("Gabe's XSLX Processor")
+        self.master.title("Gabe's Spreadsheet Processor")
 
-        # Arrange this Frame widget in a grid layout with padding
+        # Should set background, but bc of how I wrote this, it's more like a border than bg; not great, but works.
+        self.master.configure(bg='#d5d6db')
+
+        # Actually sets the bg
+        self.configure(bg='#d5d6db')
+
+        # Arrange this frame widget in a grid layout with padding
         self.grid(padx=10, pady=10)
 
         # Create UI elements
@@ -37,16 +43,18 @@ class Application(tk.Frame):
     # Method to create and configure widgets
     def create_widgets(self):
         # Label for showing selected file names
-        self.filename_label = tk.Label(self, text="No files selected", font=('Helvetica', 9, 'italic'), fg='gray')
+        self.filename_label = tk.Label(self, text="No files selected", font=('Helvetica', 9, 'italic'), fg='#0f0f14',
+                                       bg='#d5d6db')
         self.filename_label.grid(row=0, column=1, sticky='w')
 
         # Button for browsing and selecting Excel files
-        self.browse_button = tk.Button(self, text="Browse Excel Files", command=self.load_files, bg='lightblue',
+        self.browse_button = tk.Button(self, text="Browse Files", command=self.load_files, bg='#8be9fd',
                                        width=20)
         self.browse_button.grid(row=0, column=0, pady=(0, 10))
 
         # Label for input field (Entry widget) for column names to remove
-        self.columns_label = tk.Label(self, text="Columns to remove (comma-separated)", font=('Helvetica', 10))
+        self.columns_label = tk.Label(self, text="Columns to remove (comma-separated)", font=('Helvetica', 10),
+                                      fg='#343b58', bg='#d5d6db')
         self.columns_label.grid(row=1, column=0, sticky='w')
 
         # Entry widget for column names input
@@ -54,7 +62,7 @@ class Application(tk.Frame):
         self.columns_entry.grid(row=2, column=0, columnspan=2, pady=(0, 10))
 
         # Button for processing files
-        self.process_button = tk.Button(self, text="Process Files", command=self.process_files, bg='lightgreen',
+        self.process_button = tk.Button(self, text="Process Files", command=self.process_files, bg='#50fa7b',
                                         width=20)
         self.process_button.grid(row=3, column=0, columnspan=2)
 
