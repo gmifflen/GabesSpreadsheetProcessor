@@ -1,7 +1,3 @@
-Sure, here's a simple README.md for your application:
-
----
-
 # Gabe's Spreadsheet Processor
 
 This application provides a simple graphical user interface for editing spreadsheet files. It allows you to remove specific columns from one or multiple files at once.
