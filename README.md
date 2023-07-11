@@ -6,7 +6,7 @@ This application provides a simple graphical user interface for editing spreadsh
 
 ## Usage
 
-1. Click the "Browse Excel Files" button to select one or multiple spreadsheet files that you want to clean. The application supports Excel (.xlsx and .xls) files.
+1. Click the "Browse Files" button to select one or multiple spreadsheet files that you want to clean. The application supports common spreadsheet formats (.xlsx, .ods, .csv).
 
 2. Enter the names of the columns you want to remove in the text field, separated by commas.
 
