@@ -1,7 +1,3 @@
-Sure, here's a simple README.md for your application:
-
----
-
 # Gabe's Spreadsheet Processor
 
 This application provides a simple graphical user interface for editing spreadsheet files. It allows you to remove specific columns from one or multiple files at once.
@@ -16,7 +12,7 @@ This application provides a simple graphical user interface for editing spreadsh
 
 3. Click the "Process Files" button. The application will read each file, remove the specified columns, and write the cleaned data to a new file with "_cleaned" appended to the original filename.
 
-Video guide(click image below):
+Video guide(click image below)[slightly outdated]:
 
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=qC1W0BDccj4
 " target="_blank"><img src="http://img.youtube.com/vi/qC1W0BDccj4/0.jpg" width="240" height="180" border="10" /></a>
