@@ -119,13 +119,19 @@ class Application(tk.Frame):
             messagebox.showerror("Error", f"Failed to read file {filename}. Make sure it's a valid spreadsheet file.")
             return
 
+        # Get the number of rows to preview from the Entry widget
+        try:
+            num_rows = int(self.preview_rows_entry.get())
+        except ValueError:
+            messagebox.showerror("Error", "Invalid number of rows to preview.")
+            return
+
         # Create a new window to display the data
         preview_window = tk.Toplevel(self.master)
         preview_window.title(f"Data Preview - {os.path.basename(filename)}")
         preview_frame = tk.Frame(preview_window)
         preview_frame.pack(fill='both', expand=True)
-        #  TODO Let the user choose rows displayed
-        table = Table(preview_frame, dataframe=data.head(15))
+        table = Table(preview_frame, dataframe=data.head(num_rows))
         table.show()
 
     # Method to process files, triggered by "Process Files" button
