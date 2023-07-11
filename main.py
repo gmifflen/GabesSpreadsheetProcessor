@@ -84,8 +84,8 @@ class Application(tk.Frame):
 
         # Entry for # of preview rows
         self.preview_rows_entry = tk.Entry(self, width=10)
-        # Delaults to 15
-        self.preview_rows_entry.insert(0, '15')
+        # Delaults to 12
+        self.preview_rows_entry.insert(0, '12')
         self.preview_rows_entry.grid(row=5, column=1, sticky='w')
 
     # Method to load files, triggered by "Browse Excel Files" button
