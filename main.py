@@ -29,6 +29,8 @@ class Application(tk.Frame):
         self.master.title("Gabe's Spreadsheet Processor")
 
         # Should set background, but bc of how I wrote this, it's more like a border than bg; not great, but works.
+        # TODO figure out a way to not use this or the below one if possible.
+        # TODO look into root.wm_attributes('-transparentcolor','black')
         self.master.configure(bg='#d5d6db')
 
         # Actually sets the bg, but not the border which has to be set above
