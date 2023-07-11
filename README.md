@@ -6,13 +6,13 @@ This application provides a simple graphical user interface for editing spreadsh
 
 ## Usage
 
-1. Click the "Browse Files" button to select one or multiple spreadsheet files that you want to clean. The application supports common spreadsheet formats (.xlsx, .ods, .csv).
-
-2. Enter the names of the columns you want to remove in the text field, separated by commas.
-
-3. Click the "Preview Data" button to double check you have the right file
-
-4. Click the "Process Files" button. The application will read each file, remove the specified columns, and write the cleaned data to a new file with "_cleaned" appended to the original filename.
+1. Click the "Browse Files" button to select one or more spreadsheet files.
+2. The selected filenames will be displayed in the interface.
+3. To preview data from the first selected file, click the "Preview Data" button.
+4. Enter the column names (comma-separated) that you want to remove from the files in the "Columns to remove" field.
+5. Click the "Process Files" button to remove the specified columns from the selected files.
+6. Processed files will be saved with "_cleaned" appended to their original filenames.
+7. A success message will be displayed when all files are processed.
 
 Video guide(click image below)[slightly outdated]:
 
