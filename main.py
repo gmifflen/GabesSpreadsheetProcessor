@@ -30,13 +30,12 @@ class Application(tk.Frame):
         # Set the window title
         self.master.title("Gabe's Spreadsheet Processor")
 
-        # Should set background, but bc of how I wrote this, it's more like a border than bg; not great, but works.
         # TODO figure out a way to not use this or the below one if possible.
-        # TODO look into root.wm_attributes('-transparentcolor','black')
+        # Should set background, but it's more like a border than bg; not great, but works.
         self.master.configure(bg='#d5d6db')
 
-        # Actually sets the bg, but not the border which has to be set above
-        self.configure(bg='#d5d6db')
+        # Actually sets the bg, but not the border which has to be set above, changed to a grey to show problem
+        self.configure(bg='#282828')
 
         # Arrange this frame widget in a grid layout with padding
         self.grid(padx=10, pady=10)
@@ -84,6 +83,7 @@ class Application(tk.Frame):
             # Update the filename label text with selected files
             self.filename_label['text'] = ', '.join(self.filenames)
 
+    # Method ot preview
     def preview_data(self):
         if not self.filenames:
             messagebox.showerror("Error", "No files selected")
@@ -97,7 +97,8 @@ class Application(tk.Frame):
                 data = pd.read_csv(filename)
             else:
                 data = pd.read_excel(filename)
-        except (FileNotFoundError, pd.errors.EmptyDataError) as e:
+                # pd.errors.EmptyDataError is meant for csv's when empty data or header is encountered
+        except (pd.errors.EmptyDataError, FileNotFoundError) as e:
             # If the file couldn't be read, show an error message and end the function
             messagebox.showerror("Error", f"Failed to read file {filename}. Make sure it's a valid spreadsheet file.")
             return
