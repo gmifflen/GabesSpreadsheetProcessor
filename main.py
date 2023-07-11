@@ -189,6 +189,11 @@ class Application(tk.Frame):
 
 # Create the application
 root = tk.Tk()
+
+# TODO properly center the window
+# Kinda centers the window
+root.eval('tk::PlaceWindow . center')
+
 app = Application(master=root)
 # Start the application main loop
 app.mainloop()
