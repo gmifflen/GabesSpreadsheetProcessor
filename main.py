@@ -1,3 +1,4 @@
+# Import modules
 import pandas as pd
 from pandas.errors import EmptyDataError
 import tkinter as tk
@@ -7,7 +8,7 @@ import os
 from pandastable import Table
 
 
-# main application
+# Main application
 class Application(tk.Frame):
     # Initialize the Application class
     def __init__(self, master=None):
@@ -35,9 +36,9 @@ class Application(tk.Frame):
         self.master.configure(bg='#d5d6db')
 
         # Actually sets the bg, but not the border which has to be set above, changed to a grey to show problem
-        self.configure(bg='#282828')
+        self.configure(bg='#d5d6db')
 
-        # Arrange this frame widget in a grid layout with padding
+        # Arrange the frame widget in a grid layout with padding
         self.grid(padx=10, pady=10)
 
         # Create UI elements
@@ -70,7 +71,7 @@ class Application(tk.Frame):
         self.process_button.grid(row=3, column=0, columnspan=2)
 
         # Button to preview data
-        self.preview_button = tk.Button(self, text="Preview Data", command=self.preview_data, bg='lightyellow',
+        self.preview_button = tk.Button(self, text="Preview Data", command=self.preview_data, bg='#ff9e64',
                                         width=20)
         self.preview_button.grid(row=4, column=0, columnspan=2, pady=(10, 0))
 
@@ -85,6 +86,7 @@ class Application(tk.Frame):
 
     # Method ot preview
     def preview_data(self):
+        # Check if any file si selected, else error message
         if not self.filenames:
             messagebox.showerror("Error", "No files selected")
             return
@@ -92,6 +94,7 @@ class Application(tk.Frame):
         # To only preview the 1st file
         filename = self.filenames[0]
 
+        # Try to read file based on it's extension
         try:
             if filename.endswith('.csv'):
                 data = pd.read_csv(filename)
@@ -108,11 +111,13 @@ class Application(tk.Frame):
         preview_window.title(f"Data Preview - {os.path.basename(filename)}")
         preview_frame = tk.Frame(preview_window)
         preview_frame.pack(fill='both', expand=True)
-        table = Table(preview_frame, dataframe=data.head(5))
+        #  TODO Let the user choose rows displayed
+        table = Table(preview_frame, dataframe=data.head(15))
         table.show()
 
     # Method to process files, triggered by "Process Files" button
     def process_files(self):
+        read_data = None
         # Show error and return if no files selected
         if not self.filenames:
             messagebox.showerror("Error", "No files selected")
@@ -127,39 +132,37 @@ class Application(tk.Frame):
 
         # Iterate over the selected files
         for filename in self.filenames:
+            # Determine the file reading function based on the file extension
+            if filename.endswith('.csv'):
+                read_func = pd.read_csv
+            elif filename.endswith(('.xlsx', '.ods')):
+                read_func = pd.read_excel
+            else:
+                messagebox.showerror("Error", f"Unsupported file type for file {filename}.")
+                return
+
+            # Try and read the file, else error
             try:
-                # Check if file is csv
-                if filename.endswith('.csv'):
-                    # Try to read the Excel or ODS file
-                    data = pd.read_csv(filename)
-                else:
-                    # Try to read the Excel or ODS file
-                    data = pd.read_excel(filename)
-            except (FileNotFoundError, pd.errors.EmptyDataError) as e:
-                # If the file couldn't be read, show an error message and end the function
+                data = read_func(filename)
+            except (pd.errors.EmptyDataError, FileNotFoundError) as e:
                 messagebox.showerror("Error",
                                      f"Failed to read file {filename}. Make sure it's a valid spreadsheet file.")
                 return
 
-            # Check if any of the columns specified to remove are not in the dataframe
+            # CHeck if unwanted cols exist, else error
             missing_cols = [col for col in columns_to_remove if col not in data.columns]
-            # If there are any such columns, show an error message and end the function
             if missing_cols:
                 messagebox.showerror("Error",
-                                     f"The column(s) {', '.join(missing_cols)} do not exist in file {filename}")
+                                     f"The column(s) {', '.join(missing_cols)} do not exist in file {filename}.")
                 return
 
-            # Remove the specified columns
+            # drop unwanted cols
             data = data.drop(columns=columns_to_remove)
 
             # Save the data to a new file with "_cleaned" appended to the original filename
             base_filename, ext = os.path.splitext(filename)
             output_filename = f"{base_filename}_cleaned{ext}"
-
-            if filename.endswith('.csv'):
-                data.to_csv(output_filename, index=False)
-            else:
-                data.to_excel(output_filename, index=False)
+            data.to_excel(output_filename, index=False)
 
         # Show success message when all files are processed
         messagebox.showinfo("Success", f"Files processed successfully")
