@@ -1,6 +1,6 @@
 # Import modules
 import pandas as pd
-from pandas.errors import EmptyDataError
+from pandas.errors import EmptyDataError, ParserError
 import tkinter as tk
 from tkinter import filedialog
 from tkinter import messagebox
@@ -18,12 +18,14 @@ class Application(tk.Frame):
         self.preview_button = None
         self.filenames = None
 
-        # UI element
+        # UI elements
         self.process_button = None
         self.columns_entry = None
         self.columns_label = None
         self.browse_button = None
         self.filename_label = None
+        self.preview_rows_label = None
+        self.preview_rows_entry = None
 
         # Assign the master (root window)
         self.master = master
@@ -75,6 +77,17 @@ class Application(tk.Frame):
                                         width=20)
         self.preview_button.grid(row=4, column=0, columnspan=2, pady=(10, 0))
 
+        # ALbel for # of preview rows
+        self.preview_rows_label = tk.Label(self, text="Number of rows to preview:", font=('Helvetica', 10),
+                                           fg='#343b58', bg='#d5d6db')
+        self.preview_rows_label.grid(row=5, column=0, sticky='w')
+
+        # Entry for # of preview rows
+        self.preview_rows_entry = tk.Entry(self, width=10)
+        # Delaults to 15
+        self.preview_rows_entry.insert(0, '15')
+        self.preview_rows_entry.grid(row=5, column=1, sticky='w')
+
     # Method to load files, triggered by "Browse Excel Files" button
     def load_files(self):
         # Open a file dialog and get the selected filenames
@@ -101,7 +114,7 @@ class Application(tk.Frame):
             else:
                 data = pd.read_excel(filename)
                 # pd.errors.EmptyDataError is meant for csv's when empty data or header is encountered
-        except (pd.errors.EmptyDataError, FileNotFoundError) as e:
+        except (pd.errors.EmptyDataError, pd.errors.ParserError, FileNotFoundError) as e:
             # If the file couldn't be read, show an error message and end the function
             messagebox.showerror("Error", f"Failed to read file {filename}. Make sure it's a valid spreadsheet file.")
             return
@@ -144,7 +157,7 @@ class Application(tk.Frame):
             # Try and read the file, else error
             try:
                 data = read_func(filename)
-            except (pd.errors.EmptyDataError, FileNotFoundError) as e:
+            except (pd.errors.EmptyDataError, pd.errors.ParserError, FileNotFoundError) as e:
                 messagebox.showerror("Error",
                                      f"Failed to read file {filename}. Make sure it's a valid spreadsheet file.")
                 return
