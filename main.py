@@ -30,7 +30,7 @@ class Application(tk.Frame):
         # Set the window title
         self.master.title("Gabe's Spreadsheet Processor")
 
-        # TODO figure out a way to not use this or the below one if possible.
+        # TODO figure out a way to not use this or the below one if possible
         # Should set background, but it's more like a border than bg; not great, but works.
         self.master.configure(bg='#d5d6db')
 
