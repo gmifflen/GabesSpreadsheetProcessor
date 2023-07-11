@@ -4,6 +4,7 @@ import tkinter as tk
 from tkinter import filedialog
 from tkinter import messagebox
 import os
+from pandastable import Table
 
 
 # main application
@@ -13,6 +14,7 @@ class Application(tk.Frame):
         super().__init__(master)
 
         # holds selected files names
+        self.preview_button = None
         self.filenames = None
 
         # UI element
@@ -68,13 +70,45 @@ class Application(tk.Frame):
                                         width=20)
         self.process_button.grid(row=3, column=0, columnspan=2)
 
+        # Button to preview data
+        self.preview_button = tk.Button(self, text="Preview Data", command=self.preview_data, bg='lightyellow',
+                                        width=20)
+        self.preview_button.grid(row=4, column=0, columnspan=2, pady=(10, 0))
+
     # Method to load files, triggered by "Browse Excel Files" button
     def load_files(self):
         # Open a file dialog and get the selected filenames
-        self.filenames = filedialog.askopenfilenames(filetypes=(("Spreadsheet files", "*.xlsx *.csv *.ods"), ("All files", "*.*")))
+        self.filenames = filedialog.askopenfilenames(
+            filetypes=(("Spreadsheet files", "*.xlsx *.csv *.ods"), ("All files", "*.*")))
         if self.filenames:
             # Update the filename label text with selected files
             self.filename_label['text'] = ', '.join(self.filenames)
+
+    def preview_data(self):
+        if not self.filenames:
+            messagebox.showerror("Error", "No files selected")
+            return
+
+        # To only preview the 1st file
+        filename = self.filenames[0]
+
+        try:
+            if filename.endswith('.csv'):
+                data = pd.read_csv(filename)
+            else:
+                data = pd.read_excel(filename)
+        except (FileNotFoundError, pd.errors.EmptyDataError) as e:
+            # If the file couldn't be read, show an error message and end the function
+            messagebox.showerror("Error", f"Failed to read file {filename}. Make sure it's a valid spreadsheet file.")
+            return
+
+        # Create a new window to display the data
+        preview_window = tk.Toplevel(self.master)
+        preview_window.title(f"Data Preview - {os.path.basename(filename)}")
+        preview_frame = tk.Frame(preview_window)
+        preview_frame.pack(fill='both', expand=True)
+        table = Table(preview_frame, dataframe=data.head(5))
+        table.show()
 
     # Method to process files, triggered by "Process Files" button
     def process_files(self):
@@ -102,14 +136,16 @@ class Application(tk.Frame):
                     data = pd.read_excel(filename)
             except (FileNotFoundError, pd.errors.EmptyDataError) as e:
                 # If the file couldn't be read, show an error message and end the function
-                messagebox.showerror("Error", f"Failed to read file {filename}. Make sure it's a valid spreadsheet file.")
+                messagebox.showerror("Error",
+                                     f"Failed to read file {filename}. Make sure it's a valid spreadsheet file.")
                 return
 
             # Check if any of the columns specified to remove are not in the dataframe
             missing_cols = [col for col in columns_to_remove if col not in data.columns]
             # If there are any such columns, show an error message and end the function
             if missing_cols:
-                messagebox.showerror("Error", f"The column(s) {', '.join(missing_cols)} do not exist in file {filename}")
+                messagebox.showerror("Error",
+                                     f"The column(s) {', '.join(missing_cols)} do not exist in file {filename}")
                 return
 
             # Remove the specified columns
