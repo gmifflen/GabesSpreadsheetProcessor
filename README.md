@@ -1,8 +1,15 @@
 # Gabe's Spreadsheet Processor
 
-This application provides a simple graphical user interface for editing spreadsheet files. It allows you to remove specific columns from one or multiple files at once.
+Gabe's Spreadsheet Processor, a Python application for processing spreadsheet files. It provides a user-friendly interface to browse and select spreadsheet files, preview data, and process files by removing specified columns.
 
 ![alt text](https://github.com/gmifflen/GabesSpreadsheetProcessor/blob/main/sc.png?raw=true)
+
+## Key Features
+- Browse and select multiple spreadsheet files (supported file types: .xlsx, .csv, .ods)
+- Preview data from the selected files
+- Specify columns to remove from the files
+- Process the selected files by removing the specified columns
+- Save processed data to new files with "_cleaned" appended to the original filenames
 
 ## Usage
 
