@@ -25,6 +25,7 @@ Video guide(click image below):
 - [x] Add support for more file types
 - [ ] Allow the user to specify different columns to remove for each file
 - [ ] Improve the GUI layout and design
+  - [x] Add way to preview data
 - [ ] Squash bugs
   - [x] Invalid Column Name
   - [x] Invalid File Type
