@@ -10,7 +10,9 @@ This application provides a simple graphical user interface for editing spreadsh
 
 2. Enter the names of the columns you want to remove in the text field, separated by commas.
 
-3. Click the "Process Files" button. The application will read each file, remove the specified columns, and write the cleaned data to a new file with "_cleaned" appended to the original filename.
+3. Click the "Preview Data" button to double check you have the right file
+
+4. Click the "Process Files" button. The application will read each file, remove the specified columns, and write the cleaned data to a new file with "_cleaned" appended to the original filename.
 
 Video guide(click image below)[slightly outdated]:
 
