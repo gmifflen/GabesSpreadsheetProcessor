@@ -37,6 +37,7 @@ Video guide(click image below)[slightly outdated]:
   - [x] Invalid Column Name
   - [x] Invalid File Type
 - [ ] Add function for columns to keep
+- [ ] Look into PyQt
 
 
 The desktop icon was made by OkapiIsTired from https://www.favicon.cc/
