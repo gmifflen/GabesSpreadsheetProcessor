@@ -28,6 +28,7 @@ Video guide(click image below)[slightly outdated]:
 
 ## TODO
 - [x] Add support for more file types
+- [ ] Add uspport for different enocodings
 - [ ] Allow the user to specify different columns to remove for each file
 - [ ] Improve the GUI layout and design
   - [x] Add way to preview data
