@@ -109,12 +109,9 @@ class Application(tk.Frame):
 
         # Try to read file based on it's extension
         try:
-            if filename.endswith('.csv'):
-                data = pd.read_csv(filename)
-            else:
-                data = pd.read_excel(filename)
-                # pd.errors.EmptyDataError is meant for csv's when empty data or header is encountered
-        except (pd.errors.EmptyDataError, pd.errors.ParserError, FileNotFoundError) as e:
+            data = self.read_file(filename)
+            # pd.errors.EmptyDataError is meant for csv's when empty data or header is encountered
+        except (EmptyDataError, ParserError, FileNotFoundError) as e:
             # If the file couldn't be read, show an error message and end the function
             messagebox.showerror("Error", f"Failed to read file {filename}. Make sure it's a valid spreadsheet file.")
             return
@@ -151,19 +148,10 @@ class Application(tk.Frame):
 
         # Iterate over the selected files
         for filename in self.filenames:
-            # Determine the file reading function based on the file extension
-            if filename.endswith('.csv'):
-                read_func = pd.read_csv
-            elif filename.endswith(('.xlsx', '.ods')):
-                read_func = pd.read_excel
-            else:
-                messagebox.showerror("Error", f"Unsupported file type for file {filename}.")
-                return
-
             # Try and read the file, else error
             try:
-                data = read_func(filename)
-            except (pd.errors.EmptyDataError, pd.errors.ParserError, FileNotFoundError) as e:
+                data = self.read_file(filename)
+            except (EmptyDataError, ParserError, FileNotFoundError) as e:
                 messagebox.showerror("Error",
                                      f"Failed to read file {filename}. Make sure it's a valid spreadsheet file.")
                 return
@@ -181,10 +169,23 @@ class Application(tk.Frame):
             # Save the data to a new file with "_cleaned" appended to the original filename
             base_filename, ext = os.path.splitext(filename)
             output_filename = f"{base_filename}_cleaned{ext}"
-            data.to_excel(output_filename, index=False)
+
+            if filename.endswith('.csv'):
+                data.to_csv(output_filename, index=False)
+            else:
+                data.to_excel(output_filename, index=False)
 
         # Show success message when all files are processed
         messagebox.showinfo("Success", f"Files processed successfully")
+
+    @staticmethod
+    def read_file(filename):
+        if filename.endswith('.csv'):
+            return pd.read_csv(filename)
+        elif filename.endswith(('.xlsx', '.ods')):
+            return pd.read_excel(filename)
+        else:
+            raise Exception("Unsupported file type.")
 
 
 # Create the application
