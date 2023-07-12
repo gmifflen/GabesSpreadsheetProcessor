@@ -1,150 +1,152 @@
-# Import modules
 import pandas as pd
 from pandas.errors import EmptyDataError, ParserError
-import tkinter as tk
-from tkinter import filedialog
-from tkinter import messagebox
+from PyQt5 import QtWidgets, QtCore, QtGui
+from PyQt5.QtWidgets import QFileDialog, QMessageBox, QGridLayout, QLabel, QPushButton, QLineEdit, QTableWidget, QTableWidgetItem
+from PyQt5.QtGui import QFont
 import os
-from pandastable import Table
 import chardet
 
 
-# Main application
-class Application(tk.Frame):
-    # Initialize the Application class
-    def __init__(self, master=None):
-        super().__init__(master)
+class Application(QtWidgets.QWidget):
+    def __init__(self, parent=None):
+        super().__init__(parent)
 
         # holds selected files names
+        self.preview_rows_entry = None
+        self.preview_rows_label = None
         self.preview_button = None
-        self.filenames = None
-
-        # UI elements
         self.process_button = None
         self.columns_entry = None
         self.columns_label = None
-        self.browse_button = None
         self.filename_label = None
-        self.preview_rows_label = None
-        self.preview_rows_entry = None
+        self.browse_button = None
+        self.filenames = []
+        self.preview_windows = []
 
-        # Assign the master (root window)
-        self.master = master
-
-        # Set the window title
-        self.master.title("Gabe's Spreadsheet Processor")
-
-        # TODO figure out a way to not use this or the below one if possible
-        # Should set background, but it's more like a border than bg; not great, but works.
-        # noinspection PyArgumentList
-        self.master.configure(bg='#d5d6db')
-
-        # Actually sets the bg, but not the border which has to be set above, changed to a grey to show problem
-        self.configure(bg='#d5d6db')
-
-        # Arrange the frame widget in a grid layout with padding
-        self.grid(padx=10, pady=10)
+        # Set the background color
+        self.setAutoFillBackground(True)
+        p = self.palette()
+        p.setColor(self.backgroundRole(), QtGui.QColor('#d5d6db'))
+        self.setPalette(p)
 
         # Create UI elements
         self.create_widgets()
 
-    # Method to create and configure widgets
+        # Set the window title
+        self.setWindowTitle("Gabe's Spreadsheet Processor")
+
     def create_widgets(self):
-        # Label for showing selected file names
-        self.filename_label = tk.Label(self, text="No files selected", font=('Helvetica', 9, 'italic'), fg='#0f0f14',
-                                       bg='#d5d6db')
-        self.filename_label.grid(row=0, column=1, sticky='w')
+        # Create a grid layout
+        layout = QGridLayout(self)
 
         # Button for browsing and selecting Excel files
-        self.browse_button = tk.Button(self, text="Browse Files", command=self.load_files, bg='#8be9fd',
-                                       width=20)
-        self.browse_button.grid(row=0, column=0, pady=(0, 10))
+        self.browse_button = QPushButton("Browse Files")
+        self.browse_button.setStyleSheet('background-color: #8be9fd')
+        self.browse_button.clicked.connect(self.load_files)
+        layout.addWidget(self.browse_button, 0, 0)
 
-        # Label for input field (Entry widget) for column names to remove
-        self.columns_label = tk.Label(self, text="Columns to remove (comma-separated)", font=('Helvetica', 10),
-                                      fg='#343b58', bg='#d5d6db')
-        self.columns_label.grid(row=1, column=0, sticky='w')
+        # Label for showing selected file names
+        self.filename_label = QLabel("No files selected")
+        self.filename_label.setStyleSheet('color: #0f0f14')
+        self.filename_label.setFont(QFont('Helvetica', 9, italic=True))
+        layout.addWidget(self.filename_label, 0, 1)
+
+        # Label for input field for column names to remove
+        self.columns_label = QLabel("Columns to remove (comma-separated)")
+        self.columns_label.setStyleSheet('color: #343b58')
+        self.columns_label.setFont(QFont('Helvetica', 10))
+        layout.addWidget(self.columns_label, 1, 0)
 
         # Entry widget for column names input
-        self.columns_entry = tk.Entry(self, width=40)
-        self.columns_entry.grid(row=2, column=0, columnspan=2, pady=(0, 10))
+        self.columns_entry = QLineEdit()
+        layout.addWidget(self.columns_entry, 2, 0, 1, 2)
 
         # Button for processing files
-        self.process_button = tk.Button(self, text="Process Files", command=self.process_files, bg='#50fa7b',
-                                        width=20)
-        self.process_button.grid(row=3, column=0, columnspan=2)
+        self.process_button = QPushButton("Process Files")
+        self.process_button.setStyleSheet('background-color: #50fa7b')
+        self.process_button.clicked.connect(self.process_files)
+        layout.addWidget(self.process_button, 3, 0, 1, 2)
 
         # Button to preview data
-        self.preview_button = tk.Button(self, text="Preview Data", command=self.preview_data, bg='#ff9e64',
-                                        width=20)
-        self.preview_button.grid(row=4, column=0, columnspan=2, pady=(10, 0))
+        self.preview_button = QPushButton("Preview Data")
+        self.preview_button.setStyleSheet('background-color: #ff9e64')
+        self.preview_button.clicked.connect(self.preview_data)
+        layout.addWidget(self.preview_button, 4, 0, 1, 2)
 
-        # ALbel for # of preview rows
-        self.preview_rows_label = tk.Label(self, text="Number of rows to preview:", font=('Helvetica', 10),
-                                           fg='#343b58', bg='#d5d6db')
-        self.preview_rows_label.grid(row=5, column=0, sticky='w')
+        # Label for # of preview rows
+        self.preview_rows_label = QLabel("Number of rows to preview:")
+        self.preview_rows_label.setStyleSheet('color: #343b58')
+        self.preview_rows_label.setFont(QFont('Helvetica', 10))
+        layout.addWidget(self.preview_rows_label, 5, 0)
 
         # Entry for # of preview rows
-        self.preview_rows_entry = tk.Entry(self, width=10)
-        # Delaults to 12
-        self.preview_rows_entry.insert(0, '12')
-        self.preview_rows_entry.grid(row=5, column=1, sticky='w')
+        self.preview_rows_entry = QLineEdit()
+        self.preview_rows_entry.setText('12')
+        layout.addWidget(self.preview_rows_entry, 5, 1)
 
-    # Method to load files, triggered by "Browse Excel Files" button
     def load_files(self):
         # Open a file dialog and get the selected filenames
-        self.filenames = filedialog.askopenfilenames(
-            filetypes=(("Spreadsheet files", "*.xlsx *.csv *.ods"), ("All files", "*.*")))
+        self.filenames, _ = QFileDialog.getOpenFileNames(self, "Select Files",
+                                                         "",
+                                                         "Spreadsheet files (*.xlsx *.csv *.ods);;All files (*)")
         if self.filenames:
             # Update the filename label text with selected files
-            self.filename_label['text'] = ', '.join(self.filenames)
+            self.filename_label.setText(', '.join(self.filenames))
 
-    # Method ot preview
     def preview_data(self):
-        # Check if any file si selected, else error message
+        # Check if any file is selected, else error message
         if not self.filenames:
-            messagebox.showerror("Error", "No files selected")
+            QMessageBox.critical(self, "Error", "No files selected")
             return
 
         # To only preview the 1st file
         filename = self.filenames[0]
 
-        # Try to read file based on it's extension
+        # Try to read file based on its extension
         try:
             data = self.read_file(filename)
-            # pd.errors.EmptyDataError is meant for csv's when empty data or header is encountered
         except (EmptyDataError, ParserError, FileNotFoundError) as e:
-            # If the file couldn't be read, show an error message and end the function
-            messagebox.showerror("Error", f"Failed to read file {filename}. Make sure it's a valid spreadsheet file.")
+            QMessageBox.critical(self, "Error", f"Failed to read file {filename}. Make sure it's a valid spreadsheet file.")
             return
 
         # Get the number of rows to preview from the Entry widget
         try:
-            num_rows = int(self.preview_rows_entry.get())
+            num_rows = int(self.preview_rows_entry.text())
         except ValueError:
-            messagebox.showerror("Error", "Invalid number of rows to preview.")
+            QMessageBox.critical(self, "Error", "Invalid number of rows to preview.")
             return
 
         # Create a new window to display the data
-        preview_window = tk.Toplevel(self.master)
-        preview_window.title(f"Data Preview - {os.path.basename(filename)}")
-        preview_frame = tk.Frame(preview_window)
-        preview_frame.pack(fill='both', expand=True)
-        table = Table(preview_frame, dataframe=data.head(num_rows))
-        table.show()
+        preview_window = QtWidgets.QWidget()
+        preview_window.setWindowTitle(f"Data Preview - {os.path.basename(filename)}")
+        table = QTableWidget()
+        table.setRowCount(num_rows)
+        table.setColumnCount(len(data.columns))
+        table.setHorizontalHeaderLabels(data.columns)
 
-    # Method to process files, triggered by "Process Files" button
+        for row in range(num_rows):
+            for col in range(len(data.columns)):
+                table.setItem(row, col, QTableWidgetItem(str(data.iloc[row, col])))
+
+        preview_layout = QtWidgets.QVBoxLayout()
+        preview_layout.addWidget(table)
+        preview_window.setLayout(preview_layout)
+        preview_window.show()
+
+        # Store the window to prevent it from being garbage collected
+        self.preview_windows.append(preview_window)
+
     def process_files(self):
         # Show error and return if no files selected
         if not self.filenames:
-            messagebox.showerror("Error", "No files selected")
+            QMessageBox.critical(self, "Error", "No files selected")
             return
 
         # Get columns to remove from the Entry widget
-        columns_to_remove = self.columns_entry.get().split(',')
+        columns_to_remove = self.columns_entry.text().split(',')
         # Show error and return if no columns specified
         if not columns_to_remove:
-            messagebox.showerror("Error", "No columns specified")
+            QMessageBox.critical(self, "Error", "No columns specified")
             return
 
         # Iterate over the selected files
@@ -153,15 +155,13 @@ class Application(tk.Frame):
             try:
                 data = self.read_file(filename)
             except (EmptyDataError, ParserError, FileNotFoundError) as e:
-                messagebox.showerror("Error",
-                                     f"Failed to read file {filename}. Make sure it's a valid spreadsheet file.")
+                QMessageBox.critical(self, "Error", f"Failed to read file {filename}. Make sure it's a valid spreadsheet file.")
                 return
 
-            # CHeck if unwanted cols exist, else error
+            # Check if unwanted cols exist, else error
             missing_cols = [col for col in columns_to_remove if col not in data.columns]
             if missing_cols:
-                messagebox.showerror("Error",
-                                     f"The column(s) {', '.join(missing_cols)} do not exist in file {filename}.")
+                QMessageBox.critical(self, "Error", f"The column(s) {', '.join(missing_cols)} do not exist in file {filename}.")
                 return
 
             # drop unwanted cols
@@ -177,7 +177,7 @@ class Application(tk.Frame):
                 data.to_excel(output_filename, index=False)
 
         # Show success message when all files are processed
-        messagebox.showinfo("Success", f"Files processed successfully")
+        QMessageBox.information(self, "Success", f"Files processed successfully")
 
     @staticmethod
     def detect_and_read_csv(filename):
@@ -197,13 +197,12 @@ class Application(tk.Frame):
             raise Exception("Unsupported file type.")
 
 
-# Create the application
-root = tk.Tk()
+if __name__ == '__main__':
+    import sys
 
-# TODO properly center the window
-# Kinda centers the window
-root.eval('tk::PlaceWindow . center')
+    app = QtWidgets.QApplication(sys.argv)
 
-app = Application(master=root)
-# Start the application main loop
-app.mainloop()
+    application = Application()
+    application.show()
+
+    sys.exit(app.exec_())
