@@ -36,6 +36,7 @@ class Application(tk.Frame):
 
         # TODO figure out a way to not use this or the below one if possible
         # Should set background, but it's more like a border than bg; not great, but works.
+        # noinspection PyArgumentList
         self.master.configure(bg='#d5d6db')
 
         # Actually sets the bg, but not the border which has to be set above, changed to a grey to show problem
@@ -134,7 +135,6 @@ class Application(tk.Frame):
 
     # Method to process files, triggered by "Process Files" button
     def process_files(self):
-        read_data = None
         # Show error and return if no files selected
         if not self.filenames:
             messagebox.showerror("Error", "No files selected")
