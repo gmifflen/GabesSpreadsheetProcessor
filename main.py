@@ -35,6 +35,7 @@ class Application(QtWidgets.QWidget):
         # Set the window title
         self.setWindowTitle("Gabe's Spreadsheet Processor")
 
+    # noinspection PyUnresolvedReferences
     def create_widgets(self):
         # Create a grid layout
         layout = QGridLayout(self)
@@ -86,8 +87,7 @@ class Application(QtWidgets.QWidget):
 
     def load_files(self):
         # Open a file dialog and get the selected filenames
-        self.filenames, _ = QFileDialog.getOpenFileNames(self, "Select Files",
-                                                         "",
+        self.filenames, _ = QFileDialog.getOpenFileNames(self, "Select Files", "",
                                                          "Spreadsheet files (*.xlsx *.csv *.ods);;All files (*)")
         if self.filenames:
             # Update the filename label text with selected files
@@ -119,10 +119,23 @@ class Application(QtWidgets.QWidget):
         # Create a new window to display the data
         preview_window = QtWidgets.QWidget()
         preview_window.setWindowTitle(f"Data Preview - {os.path.basename(filename)}")
+
+        # Set the background color
+        preview_window.setAutoFillBackground(True)
+        p = preview_window.palette()
+        p.setColor(preview_window.backgroundRole(), QtGui.QColor('#d5d6db'))
+        preview_window.setPalette(p)
+
+        # Resize the window
+        preview_window.resize(800, 424)
+
         table = QTableWidget()
         table.setRowCount(num_rows)
         table.setColumnCount(len(data.columns))
         table.setHorizontalHeaderLabels(data.columns)
+        table.setAlternatingRowColors(True)
+        table.setStyleSheet("alternate-background-color: #d5d6db")
+        table.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
 
         for row in range(num_rows):
             for col in range(len(data.columns)):
