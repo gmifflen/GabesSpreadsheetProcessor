@@ -28,7 +28,7 @@ exe = EXE(
     a.zipfiles,
     a.datas,
     [],
-    name='Gabes XSLX Processor',
+    name='Gabes_XSLX_Processor',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,

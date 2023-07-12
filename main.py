@@ -6,6 +6,7 @@ from tkinter import filedialog
 from tkinter import messagebox
 import os
 from pandastable import Table
+import chardet
 
 
 # Main application
@@ -179,9 +180,17 @@ class Application(tk.Frame):
         messagebox.showinfo("Success", f"Files processed successfully")
 
     @staticmethod
+    def detect_and_read_csv(filename):
+        # Detects the encoding of a CSV file and read it
+        with open(filename, 'rb') as f:
+            result = chardet.detect(f.read())
+
+        return pd.read_csv(filename, encoding=result['encoding'])
+
+    @staticmethod
     def read_file(filename):
         if filename.endswith('.csv'):
-            return pd.read_csv(filename)
+            return Application.detect_and_read_csv(filename)
         elif filename.endswith(('.xlsx', '.ods')):
             return pd.read_excel(filename)
         else:
