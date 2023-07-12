@@ -29,13 +29,14 @@ Video guide(click image below)[slightly outdated]:
 
 ## TODO
 - [x] Add support for more file types
-- [ ] Add uspport for different enocodings
+- [x] Add uspport for different enocodings
 - [ ] Allow the user to specify different columns to remove for each file
 - [ ] Improve the GUI layout and design
   - [x] Add way to preview data
 - [ ] Squash bugs
   - [x] Invalid Column Name
   - [x] Invalid File Type
+- [ ] Add function for columns to keep
 
 
 The desktop icon was made by OkapiIsTired from https://www.favicon.cc/
