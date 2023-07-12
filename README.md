@@ -20,6 +20,7 @@ Gabe's Spreadsheet Processor, a Python application for processing spreadsheet fi
 5. Click the "Process Files" button to remove the specified columns from the selected files.
 6. Processed files will be saved with "_cleaned" appended to their original filenames.
 7. A success message will be displayed when all files are processed.
+Note: The application supports Excel (.xlsx), CSV (.csv), and OpenDocument Spreadsheet (.ods) file formats. The encoding detection feature ensures accurate reading of CSV files.
 
 Video guide(click image below)[slightly outdated]:
 
