@@ -33,11 +33,12 @@ Video guide(click image below)[slightly outdated]:
 - [ ] Allow the user to specify different columns to remove for each file
 - [ ] Improve the GUI layout and design
   - [x] Add way to preview data
+  - [x] Look into PyQt
 - [ ] Squash bugs
   - [x] Invalid Column Name
   - [x] Invalid File Type
 - [ ] Add function for columns to keep
-- [x] Look into PyQt
+- [ ] Add progress bar(Major Rework)
 
 
 The desktop icon was made by OkapiIsTired from https://www.favicon.cc/
