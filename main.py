@@ -207,7 +207,8 @@ class Application(QtWidgets.QWidget):
         elif filename.endswith(('.xlsx', '.ods')):
             return pd.read_excel(filename)
         else:
-            raise Exception("Unsupported file type.")
+           # raise Exception("Unsupported file type.")
+            QMessageBox.critical(self, "Error", "Unsupported file type.")
 
 
 if __name__ == '__main__':
