@@ -2,7 +2,7 @@
 
 Gabe's Spreadsheet Processor is a PHP application for processing spreadsheet files. It provides a user-friendly interface to browse and select spreadsheet files, preview data, and process files by removing specified columns.
 
-![alt text](https://github.com/gmifflen/GabesSpreadsheetProcessor/blob/main/sc.png?raw=true)
+![alt text](https://github.com/gmifflen/GabesSpreadsheetProcessor/blob/php-version/sc.png?raw=true)
 
 ## Key Features
 - Browse and select multiple spreadsheet files (supported file types: .xlsx, .csv, .ods)
