@@ -1,0 +1,119 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #E2DFF5;
+    margin: 0;
+    padding: 20px;
+    color: #333;
+    transition: background-color 0.3s ease;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: rgba(0, 0, 0, 0.03);
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    transition: box-shadow 0.3s ease;
+}
+
+.container:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+h1 {
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+    animation: fadeIn 1s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+}
+
+input[type="file"],
+input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #9A99A3;
+    border-radius: 4px;
+    box-sizing: border-box;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+input[type="file"]:focus,
+input[type="text"]:focus {
+    outline: none;
+    border-color: #787680;
+    transform: scale(1.02);
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #9A99A3;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+button:hover,
+button:focus {
+    background-color: #787680;
+    transform: translateY(-2px);
+}
+
+#preview {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    color: #333;
+    transition: background-color 0.3s ease;
+}
+
+#preview a {
+    color: #9A99A3;
+    transition: color 0.3s ease;
+}
+
+#preview a:hover {
+    color: #787680;
+    text-decoration: underline;
+}
+
+.file-upload, .column-input {
+    margin-bottom: 15px;
+}
+
+/* Responsive design adjustments */
+@media (max-width: 600px) {
+    .container {
+        width: 100%;
+        padding: 10px;
+    }
+    button, input[type="file"], input[type="text"] {
+        font-size: 14px;
+    }
+}
+
+/* Placeholder style */
+::placeholder {
+    color: #9A99A3;
+    opacity: 1;
+}
